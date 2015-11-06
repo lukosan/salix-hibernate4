@@ -8,6 +8,9 @@ dependencies {
 	compile ('org.hibernate:hibernate-java8:5.0.1.Final') {
 		exclude group: 'org.hibernate', module: "hibernate-core"
 	}
+	compile ('org.hibernate:hibernate-validator') {
+		exclude group: 'org.hibernate', module: "hibernate-core"
+	}
 	
 	compile 'com.google.guava:guava:18.0'
 	compile "org.codehaus.jackson:jackson-mapper-asl:1.9.13"

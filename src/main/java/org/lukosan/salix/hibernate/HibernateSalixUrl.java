@@ -1,7 +1,6 @@
 package org.lukosan.salix.hibernate;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Map;
 
 import javax.persistence.Embedded;
@@ -11,7 +10,6 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.Type;
 import org.lukosan.salix.SalixUrl;
-import org.springframework.http.HttpStatus;
 
 @Entity
 public class HibernateSalixUrl implements SalixUrl {
@@ -37,8 +35,8 @@ public class HibernateSalixUrl implements SalixUrl {
 	}
 
 	@Override
-	public HttpStatus getStatus() {
-		return Arrays.stream(HttpStatus.values()).filter(i -> i.value() == httpStatus).findFirst().get();
+	public int getStatus() {
+		return httpStatus;
 	}
 
 	@Override

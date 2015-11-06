@@ -68,7 +68,7 @@ public class HibernateSalixService implements SalixService {
 
 	@Override
 	public SalixUrl save(SalixUrl salixUrl) {
-		return save(salixUrl.getScope(), salixUrl.getUrl(), salixUrl.getStatus().value(), salixUrl.getView(),
+		return save(salixUrl.getScope(), salixUrl.getUrl(), salixUrl.getStatus(), salixUrl.getView(),
 				salixUrl.getPublished(), salixUrl.getRemoved(), salixUrl.getMap());
 	}
 
