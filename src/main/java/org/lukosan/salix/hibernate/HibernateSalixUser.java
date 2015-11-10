@@ -1,6 +1,5 @@
 package org.lukosan.salix.hibernate;
 
-import java.util.Arrays;
 import java.util.Map;
 
 import javax.persistence.Embedded;
@@ -57,6 +56,6 @@ public class HibernateSalixUser implements SalixUser {
 	}
 	@Override
 	public boolean hasRole(String scope, String role) {
-		return Arrays.stream(MapUtils.getStrings(getMap(), "roles."+role)).anyMatch(s -> s.equalsIgnoreCase(scope));
+		return MapUtils.getStrings(getMap(), "roles."+role).contains(scope);
 	}
 }

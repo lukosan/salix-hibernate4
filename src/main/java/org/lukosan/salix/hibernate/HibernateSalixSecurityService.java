@@ -1,7 +1,6 @@
 package org.lukosan.salix.hibernate;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -44,10 +43,7 @@ public class HibernateSalixSecurityService implements SalixSecurityService {
 	public void allow(String username, String scope, String role) {
 		HibernateSalixUser user = (HibernateSalixUser) getSession().createCriteria(HibernateSalixUser.class)
 				.add(Restrictions.eq("username", username)).uniqueResult();
-		String[] scopes = MapUtils.getStrings(user.getMap(), "roles."+role);
-		scopes = Arrays.copyOf(scopes, scopes.length + 1);
-		scopes[scopes.length-1] = scope;
-		MapUtils.put(user.getMap(), "roles."+role, scopes);
+		MapUtils.getStrings(user.getMap(), "roles."+role).add(scope);
 		getSession().saveOrUpdate(user);
 	}
 
@@ -55,8 +51,7 @@ public class HibernateSalixSecurityService implements SalixSecurityService {
 	public void deny(String username, String scope, String role) {
 		HibernateSalixUser user = (HibernateSalixUser) getSession().createCriteria(HibernateSalixUser.class)
 				.add(Restrictions.eq("username", username)).uniqueResult();
-		String[] scopes = MapUtils.getStrings(user.getMap(), "roles."+role);
-		scopes = Arrays.stream(scopes).filter(s -> ! s.equalsIgnoreCase(scope)).toArray(size -> new String[size]);
+		MapUtils.getStrings(user.getMap(), "roles."+role).remove(scope);
 		getSession().saveOrUpdate(user);
 	}
 
@@ -67,7 +62,7 @@ public class HibernateSalixSecurityService implements SalixSecurityService {
 		List<SalixUser> filtered = new ArrayList<SalixUser>();
 		for(HibernateSalixUser user : users) {
 			for(String key : MapUtils.getMap(user.getMap(), "roles").keySet()) {
-				if(Arrays.stream(MapUtils.getStrings(user.getMap(), "roles." + key)).anyMatch(s -> s.equalsIgnoreCase(scope))) {
+				if(MapUtils.getStrings(user.getMap(), "roles." + key).contains(scope)) {
 					filtered.add(user);
 					break;
 				}
@@ -82,7 +77,7 @@ public class HibernateSalixSecurityService implements SalixSecurityService {
 		List<HibernateSalixUser> users = getSession().createCriteria(HibernateSalixUser.class).list();
 		List<SalixUser> filtered = new ArrayList<SalixUser>();
 		for(HibernateSalixUser user : users) {
-			if(Arrays.stream(MapUtils.getStrings(user.getMap(), "roles." + role)).anyMatch(s -> s.equalsIgnoreCase(scope))) {
+			if(MapUtils.getStrings(user.getMap(), "roles." + role).contains(scope)) {
 				filtered.add(user);
 				break;
 			}
