@@ -145,14 +145,57 @@ public class HibernateSalixService implements SalixService {
 
 	@Override
 	public SalixResource save(String scope, String sourceId, String sourceUri, Map<String, Object> map) {
-		HibernateSalixResource salixResource = new HibernateSalixResource();
-		salixResource.setScope(scope);
-		salixResource.setSourceId(sourceId);
+		HibernateSalixResourceJson salixResource = (HibernateSalixResourceJson) getSession().createCriteria(HibernateSalixResourceJson.class)
+				.add(Restrictions.eq("sourceId", sourceId))
+				.add(Restrictions.eq("scope", scope))
+				.uniqueResult();
+		if(null == salixResource) {
+			salixResource = new HibernateSalixResourceJson();
+			salixResource.setScope(scope);
+			salixResource.setSourceId(sourceId);
+		}
 		salixResource.setSourceUri(sourceUri);
 		salixResource.setMap(map);
 		getSession().saveOrUpdate(salixResource);
 		return salixResource;
 	}
+	
+	@Override
+	public SalixResource save(String scope, String sourceId, String sourceUri, String contentType, String text) {
+		HibernateSalixResourceText salixResource = (HibernateSalixResourceText) getSession().createCriteria(HibernateSalixResourceText.class)
+				.add(Restrictions.eq("sourceId", sourceId))
+				.add(Restrictions.eq("scope", scope))
+				.uniqueResult();
+		if(null == salixResource) {
+			salixResource = new HibernateSalixResourceText();
+			salixResource.setScope(scope);
+			salixResource.setSourceId(sourceId);
+		}
+		salixResource.setContentType(contentType);
+		salixResource.setSourceUri(sourceUri);
+		salixResource.setText(text);
+		getSession().saveOrUpdate(salixResource);
+		return salixResource;
+	}
+
+	@Override
+	public SalixResource save(String scope, String sourceId, String sourceUri, String contentType, byte[] bytes) {
+		HibernateSalixResourceBinary salixResource = (HibernateSalixResourceBinary) getSession().createCriteria(HibernateSalixResourceBinary.class)
+				.add(Restrictions.eq("sourceId", sourceId))
+				.add(Restrictions.eq("scope", scope))
+				.uniqueResult();
+		if(null == salixResource) {
+			salixResource = new HibernateSalixResourceBinary();
+			salixResource.setScope(scope);
+			salixResource.setSourceId(sourceId);
+		}
+		salixResource.setContentType(contentType);
+		salixResource.setSourceUri(sourceUri);
+		salixResource.setBytes(bytes);
+		getSession().saveOrUpdate(salixResource);
+		return salixResource;
+	}
+
 
 	@SuppressWarnings("unchecked")
 	@Override

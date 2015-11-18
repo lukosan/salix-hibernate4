@@ -1,16 +1,20 @@
 package org.lukosan.salix.hibernate;
 
-import java.util.Map;
-
-import javax.persistence.Embedded;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.Transient;
 
 import org.lukosan.salix.SalixResource;
+import org.lukosan.salix.SalixResourceType;
 
 @Entity
-public class HibernateSalixResource implements SalixResource {
+@Inheritance
+@DiscriminatorColumn(name="resource_type", discriminatorType=DiscriminatorType.INTEGER)
+public abstract class HibernateSalixResource implements SalixResource {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,8 +23,6 @@ public class HibernateSalixResource implements SalixResource {
 	private String scope;
 	private String sourceId;
 	private String sourceUri;
-	@Embedded
-	private HibernateSalixMap map = new HibernateSalixMap();
 	
 	public Long getId() {
 		return id;
@@ -40,16 +42,18 @@ public class HibernateSalixResource implements SalixResource {
 	void setSourceId(String sourceId) {
 		this.sourceId = sourceId;
 	}
-	public Map<String, Object> getMap() {
-		return map;
-	}
-	void setMap(Map<String, Object> map) {
-		this.map.setHashMap(map);
-	}
 	public String getSourceUri() {
 		return sourceUri;
 	}
 	void setSourceUri(String sourceUri) {
 		this.sourceUri = sourceUri;
 	}
+	public String getResourceId() {
+		return getId().toString();
+	}
+	public String getResourceUri() {
+		return "/salix/resource/" + getResourceId(); 
+	}
+	@Transient
+	public abstract SalixResourceType getResourceType();
 }

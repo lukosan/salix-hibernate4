@@ -1,6 +1,7 @@
 dependencies {
 	compile project(':salix-core')
 	compile project(':salix-security-core')
+	
 	// Spring Boot
 	compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
 	
@@ -20,4 +21,4 @@ springBoot {
 	mainClass = 'org.lukosan.salix.Application'
 }
 
-bintray.pkg.version.desc = 'Salix Hibenate4 module'
+bintray.pkg.version.desc = 'Salix Hibernate4 module'
