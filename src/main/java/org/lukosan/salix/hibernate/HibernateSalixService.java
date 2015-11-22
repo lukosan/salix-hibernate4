@@ -49,11 +49,11 @@ public class HibernateSalixService implements SalixService {
 //				.list();
 //	}
 
-	@Override
-	public SalixUrl url(String requestUri) {
-		return (HibernateSalixUrl) getSession().createCriteria(HibernateSalixUrl.class)
-				.add(Restrictions.eq("url", requestUri)).uniqueResult();
-	}
+//	@Override
+//	public SalixUrl url(String requestUri) {
+//		return (HibernateSalixUrl) getSession().createCriteria(HibernateSalixUrl.class)
+//				.add(Restrictions.eq("url", requestUri)).uniqueResult();
+//	}
 
 	@Override
 	public SalixTemplate template(String name) {
@@ -129,11 +129,11 @@ public class HibernateSalixService implements SalixService {
 				.uniqueResult();
 	}
 
-	@Override
-	public SalixResource resource(String sourceId) {
-		return (SalixResource) getSession().createCriteria(HibernateSalixResource.class)
-				.add(Restrictions.eq("sourceId", sourceId)).uniqueResult();
-	}
+//	@Override
+//	public SalixResource resource(String sourceId) {
+//		return (SalixResource) getSession().createCriteria(HibernateSalixResource.class)
+//				.add(Restrictions.eq("sourceId", sourceId)).uniqueResult();
+//	}
 
 	@Override
 	public SalixResource resource(String sourceId, String scope) {

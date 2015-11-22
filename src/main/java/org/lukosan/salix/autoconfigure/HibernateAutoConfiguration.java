@@ -11,6 +11,7 @@ import org.lukosan.salix.hibernate.HibernateSalixService;
 import org.lukosan.salix.hibernate.SalixNamingStrategy;
 import org.lukosan.salix.security.SalixSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,6 +57,7 @@ public class HibernateAutoConfiguration {
 		}
 		
 		@Bean
+		@ConditionalOnProperty(prefix = "salix.hibernate.service", name = "enabled", matchIfMissing = true)
 		public SalixService salixService() {
 			return new HibernateSalixService();
 		}
