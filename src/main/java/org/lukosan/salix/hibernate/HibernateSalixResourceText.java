@@ -1,9 +1,12 @@
 package org.lukosan.salix.hibernate;
 
+import java.io.IOException;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
+import org.lukosan.salix.ResourceWriter;
 import org.lukosan.salix.SalixResourceText;
 import org.lukosan.salix.SalixResourceType;
 
@@ -32,5 +35,8 @@ public class HibernateSalixResourceText extends HibernateSalixResource implement
 	public SalixResourceType getResourceType() {
 		return SalixResourceType.TEXT;
 	}
-		
+	@Override
+	public void writeTo(ResourceWriter writer) throws IOException {
+		writer.getWriter().write(text);
+	}	
 }

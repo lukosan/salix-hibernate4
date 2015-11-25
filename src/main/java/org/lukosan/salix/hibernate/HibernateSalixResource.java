@@ -56,4 +56,8 @@ public abstract class HibernateSalixResource implements SalixResource {
 	}
 	@Transient
 	public abstract SalixResourceType getResourceType();
+	
+	public boolean exists() {
+		return true;
+	}
 }
